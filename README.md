@@ -75,6 +75,13 @@ The Real-Time ISL to Text and Speech Translator successfully translates ISL hand
 The system demonstrates that real-time gesture recognition using web-based technologies is feasible and effective.
 This project helps enhance communication accessibility for the hearing-impaired community by providing a simple, real-time, and digital alternative to human interpreters.
 
+<img width="1920" height="1080" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/8b904cce-e6b8-4e25-a092-f87f36ca032f" />
+<img width="1920" height="1080" alt="Screenshot (31)" src="https://github.com/user-attachments/assets/ad5ae92f-b568-4888-8294-430d6d873d32" />
+<img width="1920" height="1080" alt="Screenshot (32)" src="https://github.com/user-attachments/assets/28b87561-8348-4f20-860f-bfa868a1ff41" />
+<img width="1920" height="1080" alt="Screenshot (33)" src="https://github.com/user-attachments/assets/c65d45c1-ca31-47e2-8e2d-c359c6854a3f" />
+<img width="1920" height="1080" alt="Screenshot (34)" src="https://github.com/user-attachments/assets/9e910a98-6344-4e90-8852-c068d5c18008" />
+
+
 ## Acknowledgement
 
 I express my sincere gratitude to my department and faculty mentors for providing guidance and support throughout the project development.
