@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ISL Translator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container" style="max-width:900px;">
+    <h2>Real-Time ISL → Text → Speech</h2>
+
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <h3>Prediction:</h3>
+    <p id="predictionText">None</p>
+
+    <label><input type="checkbox" id="speak" checked> Convert to Speech</label>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+
+<script>
+let video = document.getElementById("video");
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+let detector;
+
+async function setupCamera() {
+    let stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+    return new Promise(res => video.onloadedmetadata = res);
+}
+
+async function loadModel() {
+    detector = await handPoseDetection.createDetector(
+        handPoseDetection.SupportedModels.MediaPipeHands,
+        { runtime: "mediapipe", modelType: "full",
+        solutionPath: "https://cdn.jsdelivr.net/npm/@mediapipe/hands" }
+    );
+}
+
+async function predictLoop() {
+    while (true) {
+        const hands = await detector.estimateHands(video);
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (hands.length > 0) {
+            ctx.fillStyle = "red";
+
+            hands[0].keypoints.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+
+            // -------- Simple Example Gesture Logic --------
+            let fingerCount = hands[0].keypoints.length;
+
+            let text = "Detecting...";
+
+            if (fingerCount > 18) text = "Hello";
+            if (fingerCount < 18) text = "Yes";
+
+            document.getElementById("predictionText").innerText = text;
+
+            if (document.getElementById("speak").checked) {
+                let msg = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(msg);
+            }
+        }
+
+        await new Promise(r => setTimeout(r, 150));
+    }
+}
+
+(async () => {
+    await setupCamera();
+    await loadModel();
+    predictLoop();
+})();
+</script>
+
+</body>
+</html>
